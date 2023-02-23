@@ -15,24 +15,28 @@ struct UserView: View {
     @State var users = [User]()
     
     var body: some View {
+        
         ScrollView{
-                VStack{
-                    ForEach(users, id: \.self) { user in
+            VStack{
+                ForEach(users, id: \.self) { user in
+                    VStack{
+                        VStack{
+                            WebImage(url: URL(string: user.image!))
+                                .resizable()
+                                .frame(width: 150, height: 150)
+                        }
                         HStack{
                             Text("\(user.id).")
                             Text(user.firstName)
                             Text(user.lastName ?? "")
                             Text("\(user.age)")
                         }
-                        
-                        VStack{
-                            WebImage(url: URL(string: user.image!))
-                                .resizable()
-                                .frame(width: 150, height: 150)
-                        }
+                        .padding(20)
+                        Divider()
                     }
                 }
-                .shadow(radius: 15)
+            }
+            .shadow(radius: 15)
         }
         .onAppear{
             service.getUsers { user in
